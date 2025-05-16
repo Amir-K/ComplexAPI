@@ -10,7 +10,7 @@ export function withInstrumentation(
   };
 }
 
-export const GET = withInstrumentation(async (req: Request) => {
+export const GET = withInstrumentation(async () => {
   const testData = {
     message: "Hello from the test API!",
     timestamp: new Date().toISOString(),
