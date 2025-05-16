@@ -1,16 +1,15 @@
 import { NextResponse } from "next/server";
 
-export function withInstrumentation(
-  handler: (req: Request) => Promise<Response>
-): (req: Request) => Promise<Response> {
-  return async (req: Request): Promise<Response> => {
-    await new Promise((resolve) => setTimeout(resolve, 10000));
-    const response = await handler(req);
-    return response;
+// Instrumentation middleware with delay
+function withInstrumentation<T extends (request: Request) => Promise<NextResponse>>(handler: T) {
+  return async (request: Request): Promise<NextResponse> => {
+    // Add 5 second delay
+    await new Promise(resolve => setTimeout(resolve, 5000));
+    return handler(request);
   };
 }
 
-export const GET = withInstrumentation(async () => {
+export const GET = withInstrumentation(async (_request: Request) => {
   const testData = {
     message: "Hello from the test API!",
     timestamp: new Date().toISOString(),
@@ -25,5 +24,6 @@ export const GET = withInstrumentation(async () => {
 
   return NextResponse.json(testData);
 });
+
 
 
