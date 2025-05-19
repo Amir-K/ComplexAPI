@@ -134,7 +134,7 @@ async function initializeLiveDebugger(args) {
                 executionTime: timestamp - startTimeStamp,
             };
         }), (0, operators_1.filter)((res) => res !== undefined));
-        const postMetricsHandler$ = (0, rxjs_1.merge)(handleBreakPoint$, handleExecutionTime$, toolcalls_1.toolCallResults$).pipe((0, operators_1.takeUntil)(debugger_api_1.inspectorDisconnected$), (0, operators_1.bufferTime)(2000), (0, operators_1.filter)((buffer) => buffer.length > 0), (0, operators_1.map)((buffer) => {
+        const postMetricsHandler$ = (0, rxjs_1.merge)(handleBreakPoint$, handleExecutionTime$, toolcalls_1.toolCallResults$).pipe((0, operators_1.takeUntil)(debugger_api_1.inspectorDisconnected$), (0, operators_1.bufferTime)(10), (0, operators_1.filter)((buffer) => buffer.length > 0), (0, operators_1.map)((buffer) => {
             // console.log("postMetricsHandler$", JSON.stringify(buffer));
             const flatMappedBuffer = buffer.flat();
             const executionTimes = flatMappedBuffer.filter((x) => "executionTimePairId" in x);
