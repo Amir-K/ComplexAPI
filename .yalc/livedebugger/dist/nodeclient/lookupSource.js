@@ -36,15 +36,14 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.lookupSource = lookupSource;
 exports.lookupSource$ = lookupSource$;
 const rxjs_1 = require("rxjs");
-const source_map_1 = require("source-map");
 const fs = __importStar(require("fs"));
+const source_map_js_1 = require("source-map-js");
 async function lookupSource(originalFile, line, sourceMapPath) {
     try {
-        console.log('Reading sourcemap file', sourceMapPath);
+        console.log("Reading sourcemap file", sourceMapPath);
         const rawSourceMap = await fs.promises.readFile(sourceMapPath, "utf8");
-        console.log('Done reading sourcemap file', sourceMapPath);
-        const consumer = await new source_map_1.SourceMapConsumer(JSON.parse(rawSourceMap));
-        return [];
+        console.log("Done reading sourcemap file", sourceMapPath);
+        const consumer = await new source_map_js_1.SourceMapConsumer(JSON.parse(rawSourceMap));
         console.log("Sources:", consumer.sources);
         console.log("Consumer.file: ", consumer.file);
         console.log("Original file: ", originalFile);
@@ -53,9 +52,11 @@ async function lookupSource(originalFile, line, sourceMapPath) {
             return null;
         }
         //@ts-ignore
-        const result = consumer.allGeneratedPositionsFor({ source: fullOriginalFileName, line });
-        // console.log("Result", result);
-        consumer.destroy();
+        const result = consumer.allGeneratedPositionsFor({
+            source: fullOriginalFileName,
+            line,
+        });
+        // consumer.destroy();
         return result;
     }
     catch (error) {

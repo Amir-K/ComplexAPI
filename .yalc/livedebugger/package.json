@@ -13,7 +13,7 @@
     "mssql": "^11.0.1",
     "node-fetch": "2.7.0",
     "rxjs": "^7.8.2",
-    "source-map": "^0.7.4",
+    "source-map-js": "^1.2.1",
     "tar": "^7.4.3",
     "xhr2": "^0.2.1"
   },
@@ -27,5 +27,5 @@
   "bin": {
     "ldfindsource": "dist/smlookup.js"
   },
-  "yalcSig": "eb2f876566d97704e457ad4dac560d82"
+  "yalcSig": "552698171e7ed1251abb30e3600c91bb"
 }
