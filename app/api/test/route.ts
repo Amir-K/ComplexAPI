@@ -1,13 +1,5 @@
 import { NextResponse } from "next/server";
-
-// Instrumentation middleware with delay
-function withInstrumentation<T extends (request: Request) => Promise<NextResponse>>(handler: T) {
-  return async (request: Request): Promise<NextResponse> => {
-    // Add 5 second delay
-    await new Promise(resolve => setTimeout(resolve, 5000));
-    return handler(request);
-  };
-}
+import { withInstrumentation } from "livedebugger";
 
 export const GET = withInstrumentation(async (_request: Request) => {
   const testData = {
@@ -24,6 +16,3 @@ export const GET = withInstrumentation(async (_request: Request) => {
 
   return NextResponse.json(testData);
 });
-
-
-
