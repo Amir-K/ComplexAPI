@@ -44,6 +44,7 @@ async function lookupSource(originalFile, line, sourceMapPath) {
         const rawSourceMap = await fs.promises.readFile(sourceMapPath, "utf8");
         console.log('Done reading sourcemap file', sourceMapPath);
         const consumer = await new source_map_1.SourceMapConsumer(JSON.parse(rawSourceMap));
+        return [];
         console.log("Sources:", consumer.sources);
         console.log("Consumer.file: ", consumer.file);
         console.log("Original file: ", originalFile);
