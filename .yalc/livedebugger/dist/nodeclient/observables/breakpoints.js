@@ -44,7 +44,7 @@ const inspector_1 = require("./inspector");
 const setBreakpointsHandler$ = scriptid_1.scriptId$.pipe((0, rxjs_1.tap)((x) => console.log("in setBreakpointsHandler$", x)), (0, rxjs_1.mergeMap)(({ scriptId, codeFile, sourceMapURL, sourceURL }) => (0, rxjs_1.from)(codeFile?.tracePoints).pipe((0, rxjs_1.mergeMap)(({ columnNumber, lineNumber, tracePointId: tracePointId }) => {
     if (sourceMapURL) {
         console.log(sourceMapURL, sourceURL);
-        console.log(path.join(path.dirname((0, url_1.fileURLToPath)(sourceURL)), sourceMapURL));
+        console.log(path.dirname((0, url_1.fileURLToPath)(sourceURL)), sourceMapURL);
     }
     const position$ = sourceMapURL
         ? (0, lookupSource_1.lookupSource$)(codeFile.fileName, lineNumber, path.join(path.dirname((0, url_1.fileURLToPath)(sourceURL)), sourceMapURL)).pipe((0, rxjs_1.takeUntil)(debugger_api_1.inspectorDisconnected$), (0, rxjs_1.map)((mappedPositions) => {

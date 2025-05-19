@@ -39,7 +39,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.postMetric = exports.getConfig$ = void 0;
 exports.downloadAndExtractBuild = downloadAndExtractBuild;
 const rxjs_1 = require("rxjs");
-const ajax_1 = require("rxjs/ajax");
+const axios_1 = __importDefault(require("axios"));
 const fs_1 = __importDefault(require("fs"));
 const path_1 = __importDefault(require("path"));
 const promises_1 = require("stream/promises");
@@ -52,12 +52,16 @@ function log(...args) {
     }
 }
 const brokerHost = process.env.DEVBROKERHOST ? "http://localhost:4000" : "https://livedebuggerbroker.amir-parking.duckdns.org";
-const getConfig$ = (apiKey) => ajax_1.ajax.get(`${brokerHost}/config`, { "broker-api-key": `${apiKey}` }).pipe((0, rxjs_1.catchError)((err) => {
+const getConfig$ = (apiKey) => (0, rxjs_1.from)(axios_1.default.get(`${brokerHost}/config`, {
+    headers: { "broker-api-key": apiKey }
+})).pipe((0, rxjs_1.catchError)((err) => {
     log("error getting config from broker", err);
     return [];
-}), (0, rxjs_1.map)(({ response }) => response));
+}), (0, rxjs_1.map)(({ data }) => data));
 exports.getConfig$ = getConfig$;
-const postMetric = (payload, apiKey) => ajax_1.ajax.post(`${brokerHost}/metrics`, payload, { "broker-api-key": `${apiKey}` }).pipe((0, rxjs_1.tap)(() => log("emitVariableChanged", payload)), (0, rxjs_1.catchError)((err) => {
+const postMetric = (payload, apiKey) => (0, rxjs_1.from)(axios_1.default.post(`${brokerHost}/metrics`, payload, {
+    headers: { "broker-api-key": apiKey }
+})).pipe((0, rxjs_1.tap)(() => log("emitVariableChanged", payload)), (0, rxjs_1.catchError)((err) => {
     log("error posting metrics to broker", err);
     return [];
 }));

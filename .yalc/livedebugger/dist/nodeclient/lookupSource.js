@@ -40,13 +40,13 @@ const source_map_1 = require("source-map");
 const fs = __importStar(require("fs"));
 async function lookupSource(originalFile, line, sourceMapPath) {
     try {
-        // console.log('Reading sourcemap file', sourceMapPath);
+        console.log('Reading sourcemap file', sourceMapPath);
         const rawSourceMap = await fs.promises.readFile(sourceMapPath, "utf8");
-        // console.log('Done reading sourcemap file', sourceMapPath);
+        console.log('Done reading sourcemap file', sourceMapPath);
         const consumer = await new source_map_1.SourceMapConsumer(JSON.parse(rawSourceMap));
-        // console.log("Sources:", consumer.sources);
-        // console.log("Consumer.file: ", consumer.file);
-        // console.log("Original file: ", originalFile);
+        console.log("Sources:", consumer.sources);
+        console.log("Consumer.file: ", consumer.file);
+        console.log("Original file: ", originalFile);
         const fullOriginalFileName = consumer.sources.find((source) => source.includes(originalFile));
         if (!fullOriginalFileName) {
             return null;
@@ -63,5 +63,6 @@ async function lookupSource(originalFile, line, sourceMapPath) {
     }
 }
 function lookupSource$(originalFile, line, sourceMapPath) {
+    console.log("In lookupSource$", originalFile, line, sourceMapPath);
     return (0, rxjs_1.from)(lookupSource(originalFile, line, sourceMapPath));
 }
