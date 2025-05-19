@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { withInstrumentation} from 'livedebugger';
+import { withInstrumentation } from 'livedebugger';
 
 // Instrumentation middleware with delay
 // function withInstrumentation<T extends (request: Request) => Promise<NextResponse>>(handler: T) {
