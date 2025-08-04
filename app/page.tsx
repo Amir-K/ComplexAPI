@@ -1,103 +1,195 @@
-import Image from "next/image";
+'use client';
+
+import { useState, useEffect } from 'react';
+
+interface OrderData {
+  FirstName: string;
+  LastName: string;
+  Email: string;
+  OrderID: string;
+  ProductName: string;
+  Quantity: number;
+  OrderDate: string;
+  DaysSinceOrder: number;
+}
+
+interface BalanceData {
+  calculations: Array<{
+    previousBalance: number;
+    change: number;
+    newBalance: number;
+  }>;
+  timestamp: string;
+}
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+  const [orderData, setOrderData] = useState<OrderData[]>([]);
+  const [balanceData, setBalanceData] = useState<BalanceData | null>(null);
+  const [orderLoading, setOrderLoading] = useState(true);
+  const [balanceLoading, setBalanceLoading] = useState(true);
+  const [orderError, setOrderError] = useState(false);
+  const [balanceError, setBalanceError] = useState(false);
+  const [orderLoadTime, setOrderLoadTime] = useState<string>('');
+  const [balanceLoadTime, setBalanceLoadTime] = useState<string>('');
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString() + ' ' + date.toLocaleTimeString();
+  };
+
+  const loadOrderData = async () => {
+    const startTime = performance.now();
+    setOrderLoading(true);
+    setOrderError(false);
+
+    try {
+      const response = await fetch('/api/users/stats');
+      const data = await response.json();
+      
+      const endTime = performance.now();
+      const loadTime = ((endTime - startTime) / 1000).toFixed(2);
+      setOrderLoadTime(`Last loaded in ${loadTime} seconds`);
+      
+      if (data.length > 0) {
+        setOrderData(data);
+      } else {
+        setOrderError(true);
+      }
+    } catch (error) {
+      setOrderError(true);
+      console.error('Error:', error);
+    } finally {
+      setOrderLoading(false);
+    }
+  };
+
+  const loadBalanceData = async () => {
+    const startTime = performance.now();
+    setBalanceLoading(true);
+    setBalanceError(false);
+
+    try {
+      const response = await fetch('/api/balances');
+      const data = await response.json();
+      
+      const endTime = performance.now();
+      const loadTime = ((endTime - startTime) / 1000).toFixed(2);
+      setBalanceLoadTime(`Last loaded in ${loadTime} seconds`);
+      
+      if (data.calculations && data.calculations.length > 0) {
+        setBalanceData(data);
+      } else {
+        setBalanceError(true);
+      }
+    } catch (error) {
+      setBalanceError(true);
+      console.error('Error:', error);
+    } finally {
+      setBalanceLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    loadOrderData();
+    loadBalanceData();
+  }, []);
+
+  return (
+    <>
+      <div className="dashboard">
+        <div className="header">
+          <div>
+            <h1>Balance Changes</h1>
+          </div>
+          <div className="controls">
+            <button onClick={loadBalanceData}>Refresh Balances</button>
+            <div className="loading-time">{balanceLoadTime}</div>
+          </div>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+        <div>
+          {balanceLoading ? (
+            <div className="loading">Loading balance data...</div>
+          ) : balanceError ? (
+            <div className="error">Error loading balance data</div>
+          ) : balanceData ? (
+            <>
+              <table>
+                <thead>
+                  <tr>
+                    <th>Previous Balance</th>
+                    <th>Change</th>
+                    <th>New Balance</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {balanceData.calculations.map((calc, index) => (
+                    <tr key={index}>
+                      <td>${calc.previousBalance}</td>
+                      <td style={{ color: calc.change >= 0 ? 'green' : 'red' }}>
+                        {calc.change >= 0 ? '+' : ''}${calc.change}
+                      </td>
+                      <td>${calc.newBalance}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+              <div style={{ marginTop: '10px', color: '#666' }}>
+                Last updated: {new Date(balanceData.timestamp).toLocaleString()}
+              </div>
+            </>
+          ) : (
+            <div className="error">No balance data available</div>
+          )}
+        </div>
+      </div>
+
+      <div className="dashboard" style={{ marginTop: '20px' }}>
+        <div className="header">
+          <div>
+            <h1>Order Analytics Dashboard</h1>
+          </div>
+          <div className="controls">
+            <button onClick={loadOrderData}>Refresh Data</button>
+            <div className="loading-time">{orderLoadTime}</div>
+          </div>
+        </div>
+        <div>
+          {orderLoading ? (
+            <div className="loading">Loading order data...</div>
+          ) : orderError ? (
+            <div className="error">Error loading order data</div>
+          ) : orderData.length > 0 ? (
+            <table>
+              <thead>
+                <tr>
+                  <th>Customer Name</th>
+                  <th>Email</th>
+                  <th>Order ID</th>
+                  <th>Product</th>
+                  <th>Quantity</th>
+                  <th>Order Date</th>
+                  <th>Days Since Order</th>
+                </tr>
+              </thead>
+              <tbody>
+                {orderData.map((order, index) => (
+                  <tr key={index}>
+                    <td>{order.FirstName} {order.LastName}</td>
+                    <td>{order.Email}</td>
+                    <td>{order.OrderID}</td>
+                    <td>{order.ProductName}</td>
+                    <td>{order.Quantity}</td>
+                    <td>{formatDate(order.OrderDate)}</td>
+                    <td>{order.DaysSinceOrder}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          ) : (
+            <div className="error">No order data available</div>
+          )}
+        </div>
+      </div>
+    </>
   );
 }
