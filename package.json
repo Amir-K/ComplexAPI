@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "yalc update && next build",
+    "build": "yalc update && next build --no-lint",
     "start": "next start",
     "lint": "next lint",
     "buildstart": "npm run build && npm run start"
