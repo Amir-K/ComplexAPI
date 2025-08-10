@@ -5,9 +5,10 @@
   "scripts": {
     "dev": "next dev",
     "clean": "rimraf .next",
-    "build": "npm run clean && yalc update && next build --no-lint",
+    "build": "npm run clean && rimraf sourcemaps && yalc update && next build --no-lint && npm run copy-sourcemaps",
     "start": "next start",
     "lint": "next lint",
+    "copy-sourcemaps": "rimraf sourcemaps && robocopy .next\\server sourcemaps *.js *.map /E /XD node_modules",
     "buildstart": "npm run build && npm run start"
   },
   "dependencies": {
