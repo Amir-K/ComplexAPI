@@ -4,10 +4,12 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "clean": "rimraf .next",
     "build": "yalc update && next build --no-lint",
+    "build:clean": "npm run clean && yalc update && next build --no-lint",
     "start": "next start",
     "lint": "next lint",
-    "buildstart": "npm run build && npm run start"
+    "buildstart": "npm run build:clean && npm run start"
   },
   "dependencies": {
     "livedebugger": "file:.yalc/livedebugger",
@@ -25,6 +27,7 @@
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "15.3.2",
+    "rimraf": "^6.0.1",
     "tailwindcss": "^4",
     "ts-node": "^10.9.2",
     "typescript": "^5.8.2"
