@@ -4,9 +4,10 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "yalc update && next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "buildstart": "npm run build && npm run start"
   },
   "dependencies": {
     "livedebugger": "file:.yalc/livedebugger",
