@@ -63,9 +63,11 @@ export default function Home() {
     }
   };
 
-  const loadBalanceData = async () => {
+  const loadBalanceData = async (showLoading = true) => {
     const startTime = performance.now();
-    setBalanceLoading(true);
+    if (showLoading) {
+      setBalanceLoading(true);
+    }
     setBalanceError(false);
 
     try {
@@ -85,13 +87,21 @@ export default function Home() {
       setBalanceError(true);
       console.error('Error:', error);
     } finally {
-      setBalanceLoading(false);
+      if (showLoading) {
+        setBalanceLoading(false);
+      }
     }
   };
 
   useEffect(() => {
     loadOrderData();
     loadBalanceData();
+    
+    // Set up interval to refresh balance data every second
+    const balanceInterval = setInterval(() => loadBalanceData(false), 1000);
+    
+    // Cleanup interval on component unmount
+    return () => clearInterval(balanceInterval);
   }, []);
 
   return (
@@ -100,6 +110,9 @@ export default function Home() {
         <div className="header">
           <div>
             <h1>Balance Changes</h1>
+            <div style={{ fontSize: '14px', color: '#666', marginTop: '5px' }}>
+              Auto-refreshing every second
+            </div>
           </div>
           <div className="controls">
             <button onClick={loadBalanceData}>Refresh Balances</button>
