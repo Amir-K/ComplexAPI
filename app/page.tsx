@@ -115,7 +115,7 @@ export default function Home() {
             </div>
           </div>
           <div className="controls">
-            <button onClick={loadBalanceData}>Refresh Balances</button>
+            <button onClick={() => loadBalanceData()}>Refresh Balances</button>
             <div className="loading-time">{balanceLoadTime}</div>
           </div>
         </div>
