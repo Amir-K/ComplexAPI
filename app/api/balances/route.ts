@@ -25,10 +25,17 @@ export const GET = withInstrumentation(async () => {
       };
     });
 
-    return NextResponse.json({
-      calculations,
-      timestamp: data.timestamp,
-    });
+    setTimeout(() => {
+      return NextResponse.json({
+        calculations,
+        timestamp: data.timestamp,
+      });
+    }, 5000);
+
+    // return NextResponse.json({
+    //   calculations,
+    //   timestamp: data.timestamp,
+    // });
   } catch (error) {
     console.error("Error in calculation:", error);
     return NextResponse.json({ error: "Internal server error" }, { status: 500 });
