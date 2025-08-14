@@ -25,6 +25,9 @@ export const GET = withInstrumentation(async () => {
       };
     });
 
+    // If you need a delay, use Promise-based approach
+    await new Promise(resolve => setTimeout(resolve, 2000));
+    
     return NextResponse.json({
       calculations,
       timestamp: data.timestamp,
