@@ -25,17 +25,13 @@ export const GET = withInstrumentation(async () => {
       };
     });
 
-    setTimeout(() => {
-      return NextResponse.json({
-        calculations,
-        timestamp: data.timestamp,
-      });
-    }, 5000);
-
-    // return NextResponse.json({
-    //   calculations,
-    //   timestamp: data.timestamp,
-    // });
+    // If you need a delay, use Promise-based approach
+    await new Promise(resolve => setTimeout(resolve, 2000));
+    
+    return NextResponse.json({
+      calculations,
+      timestamp: data.timestamp,
+    });
   } catch (error) {
     console.error("Error in calculation:", error);
     return NextResponse.json({ error: "Internal server error" }, { status: 500 });
