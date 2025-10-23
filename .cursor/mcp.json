@@ -1,0 +1,11 @@
+{
+    "mcpServers": {
+      "amirsworldlocal": {
+        "url": "http://localhost:7000/mcp",
+        "headers": {
+          "api-key": "demo",
+          "github-url": "https://github.com/Amir-K/ComplexAPI"
+        }
+      }
+    }
+  }
