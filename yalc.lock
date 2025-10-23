@@ -2,7 +2,7 @@
   "version": "v1",
   "packages": {
     "livedebugger": {
-      "signature": "f07a01f0ed8e344a745299e45c81cc28",
+      "signature": "d051cd5b9cfd60c037867f9e579dd6c1",
       "file": true,
       "replaced": "0.0.15"
     }
