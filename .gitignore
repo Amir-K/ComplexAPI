@@ -43,3 +43,6 @@ next-env.d.ts
 
 .yalc
 .vercel
+
+saved-sourcemaps
+saved-lookupsource-args

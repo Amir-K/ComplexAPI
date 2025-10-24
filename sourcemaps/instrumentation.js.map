@@ -1,1 +1,0 @@
-{"version":3,"file":"../instrumentation.js","mappings":";;;;;;;;;AAAA,qCAAqC;AACrC,uCAAuC;AACvC,gEAAgE;AAChE,IAAI","sources":["webpack://my-app/./instrumentation.ts"],"sourcesContent":["// export async function register() {\r\n//   console.log('In instrumentation');\r\n//   await new Promise((resolve) => setTimeout(resolve, 10000));\r\n// }\r\n"],"names":[],"sourceRoot":""}
