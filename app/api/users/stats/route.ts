@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { withInstrumentation } from "livedebugger";
+import { withReturn0 } from "@return-0/node";
 
 async function getData(_query: string, _params: any[]) {
   const query = `
@@ -35,7 +35,7 @@ async function getUserStatistics(userId?: number) {
   //return await getData("", []);
 }
 
-export const GET = withInstrumentation(async (request: NextRequest) => {
+export const GET = withReturn0(async (request: NextRequest) => {
   try {
     const { searchParams } = new URL(request.url);
     const userId = searchParams.get('userId') ? parseInt(searchParams.get('userId')!) : undefined;

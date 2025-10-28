@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
-import { withInstrumentation } from "livedebugger";
+import { withReturn0 } from "@return-0/node";
 
-export const GET = withInstrumentation(async () => {
+export const GET = withReturn0(async () => {
   try {
     const response = await fetch(
       `https://balanceservice.livelybush-67f33f33.canadacentral.azurecontainerapps.io/api/balancechange`

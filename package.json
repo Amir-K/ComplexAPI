@@ -13,7 +13,7 @@
     "buildstart": "npm run build:local && npm run start"
   },
   "dependencies": {
-    "livedebugger": "file:.yalc/livedebugger",
+    "@return-0/node": "^1.0.0",
     "next": "15.3.2",
     "node-fetch": "^3.3.2",
     "react": "^19.0.0",
