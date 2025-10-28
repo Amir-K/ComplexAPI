@@ -1,10 +1,9 @@
 {
   "version": "v1",
   "packages": {
-    "livedebugger": {
-      "signature": "d051cd5b9cfd60c037867f9e579dd6c1",
-      "file": true,
-      "replaced": "0.0.15"
+    "@return-0/node": {
+      "signature": "3870e4554feaa82f8513c1cdce2def61",
+      "file": true
     }
   }
 }

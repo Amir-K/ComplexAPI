@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
-import { withInstrumentation } from "livedebugger";
+import { withReturn0 } from "@return-0/node";
 
-export const GET = withInstrumentation(async (_request: Request) => {
+export const GET = withReturn0(async (_request: Request) => {
   const testData = {
     message: "Hello from the test API!",
     timestamp: new Date().toISOString(),
