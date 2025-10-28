@@ -1,9 +1,0 @@
-{
-  "version": "v1",
-  "packages": {
-    "@return-0/node": {
-      "signature": "dd5740b436633751c82baead220213cf",
-      "file": true
-    }
-  }
-}
