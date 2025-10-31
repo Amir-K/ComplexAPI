@@ -10,10 +10,12 @@
     "start": "next start",
     "lint": "next lint",
     "copy-sourcemaps": "rimraf sourcemaps && robocopy .next\\server sourcemaps *.map /E /XD node_modules",
-    "buildstart": "npm run build:local && npm run start"
+    "buildstart": "npm run build:local && npm run start",
+    "use:yalc": "yalc add @return-0/node && npm install",
+    "use:npm": "yalc remove @return-0/node && npm install"
   },
   "dependencies": {
-    "@return-0/node": "^1.0.0",
+    "@return-0/node": "1.0.1",
     "next": "15.3.2",
     "node-fetch": "^3.3.2",
     "react": "^19.0.0",
