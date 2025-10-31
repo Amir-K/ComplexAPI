@@ -36,8 +36,42 @@ The easiest way to deploy your Next.js app is to use the [Vercel Platform](https
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
 
 
-## Yalc notes
+## Switching between Yalc and NPM for @return-0/node
 
-`"@return-0/node": "file:.yalc/@return-0/node"`
-`yalc add @return-0/node`
-`yalc remove @return-0/node`
+When developing locally, you may want to use a local version of `@return-0/node` via `yalc` instead of the npm version.
+
+### Switch to Yalc (Local Development)
+```bash
+npm run use:yalc
+```
+This will:
+- Link the local `@return-0/node` package via `yalc`
+- Update `package.json` to use `"file:.yalc/@return-0/node"`
+- Install dependencies
+
+### Switch to NPM (Production/Standard)
+```bash
+npm run use:npm
+```
+This will:
+- Remove the yalc link
+- Restore `package.json` to use `"^1.0.0"` from npm
+- Install dependencies
+
+### Manual Commands
+If you prefer to do it manually:
+```bash
+# Switch to yalc
+yalc add @return-0/node && npm install
+
+# Switch to npm
+yalc remove @return-0/node && npm install
+```
+
+**Note:** When using yalc, make sure to publish changes from the return0 package first:
+```bash
+# In the return0 package directory
+yalc push
+```
+
+**Note:** The `build` script includes `yalc update`. When using npm mode (not yalc), you may need to remove `yalc update` from the build command or ensure yalc is installed globally, though `yalc update` should be harmless if yalc isn't being used.
